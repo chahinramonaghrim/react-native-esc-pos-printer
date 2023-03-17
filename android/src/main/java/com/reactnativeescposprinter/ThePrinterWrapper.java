@@ -30,6 +30,7 @@ import com.reactnativeescposprinter.PrinterDelegate;
 import com.reactnativeescposprinter.ThePrinterWrapperDelegate;
 import com.reactnativeescposprinter.EscPosPrinterErrorManager;
 import com.reactnativeescposprinter.ThePrinterManager;
+import com.facebook.react.bridge.WritableMap;
 
 import org.json.JSONObject;
 
