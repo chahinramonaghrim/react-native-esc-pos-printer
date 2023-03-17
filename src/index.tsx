@@ -52,6 +52,10 @@ const _default = {
     ThePrinterWrapper.makeToast();
   },
 
+  getPrinterStatusInfo(target: string) {
+    return ThePrinterWrapper.getPrinterStatusInfo(target);
+  },
+
   instantiate({
     target,
     seriesName,

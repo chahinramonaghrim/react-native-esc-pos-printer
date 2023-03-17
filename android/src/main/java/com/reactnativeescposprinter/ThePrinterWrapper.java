@@ -525,6 +525,16 @@ public class ThePrinterWrapper extends ReactContextBaseJavaModule implements Pri
 
     }
 
+    @ReactMethod 
+    public getPrinterStatusInfo(String printerTarget) {
+        ThePrinter thePrinter = thePrinterManager_.getObject(printerTarget);
+        if (thePrinter == null) {
+            Toast.makeText(context_, "printer is null", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Toast.makeText(context_, "printer is not null", Toast.LENGTH_SHORT).show();
+    }
+
     public PrinterStatusInfo getPrinterStatus(@NonNull final String printerTarget) {
 
         PrinterStatusInfo dummyInfo = new PrinterStatusInfo();
