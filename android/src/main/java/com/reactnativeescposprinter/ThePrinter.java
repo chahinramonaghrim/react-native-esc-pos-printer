@@ -46,6 +46,10 @@ public class ThePrinter implements StatusChangeListener, PrinterSettingListener,
         printerTarget_ = null;
     }
 
+    public Printer getInstance() {
+        return epos2Printer_;
+    }
+
     /**
      Returns void
      function initWith Will create a new printer with settings given

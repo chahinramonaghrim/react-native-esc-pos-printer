@@ -533,7 +533,7 @@ public class ThePrinterWrapper extends ReactContextBaseJavaModule implements Pri
             return;
         }
         try {
-            PrinterStatusInfo status = thePrinter.getStatus();
+            PrinterStatusInfo status = thePrinter.getInstance().getStatus();
 
             WritableMap message = EscPosPrinterErrorManager.makeStatusMassage(status);
 
