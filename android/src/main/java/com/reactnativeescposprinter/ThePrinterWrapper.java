@@ -546,6 +546,8 @@ public class ThePrinterWrapper extends ReactContextBaseJavaModule implements Pri
 
         } catch (Epos2Exception e) {
             promise.reject(e.getMessage());
+        } catch (Exception e) {
+            promise.reject(e.getMessage());
         }
     }
 
