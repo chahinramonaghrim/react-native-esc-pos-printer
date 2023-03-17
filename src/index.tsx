@@ -48,11 +48,7 @@ const _default = {
     return EscPosPrinter.init(target, series, lang);
   },
 
-  makeToast(): void {
-    ThePrinterWrapper.makeToast();
-  },
-
-  getPrinterStatusInfo(target: string) {
+  getPrinterStatusInfo(target: string): Promise<IMonitorStatus> {
     return ThePrinterWrapper.getPrinterStatusInfo(target);
   },
 
