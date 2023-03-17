@@ -48,8 +48,8 @@ const _default = {
     return EscPosPrinter.init(target, series, lang);
   },
 
-  showToast(): void {
-    EscPosPrinter.showToast();
+  makeToast(): void {
+    ThePrinterWrapper.makeToast();
   },
 
   instantiate({
