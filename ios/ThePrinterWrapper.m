@@ -355,6 +355,18 @@ RCT_EXPORT_METHOD(disconnectAndDeallocate:(NSString *)target
     }
 }
 
+RCT_EXPORT_METHOD(getPrinterStatusInfo:(NSString *)printerTarget
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject)
+{
+    ThePrinter* thePrinter = [objManager_ getObject:printerTarget];
+ if (thePrinter) {
+    resolve(@"Printer exists");
+  } else {
+    reject(@"Printer does not exists", nil);
+  }
+}
+
 -(Epos2PrinterStatusInfo* _Nullable) getStatus:(nonnull NSString*)objid
 {
     ThePrinter* thePrinter = nil;
