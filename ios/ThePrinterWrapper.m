@@ -167,6 +167,7 @@ RCT_EXPORT_METHOD(disconnectAndDeallocate:(NSString *)target
                 withRejecter:(RCTPromiseRejectBlock)reject)
 {
     const disconnectResult = [self disconnectPrinter:target];
+    [objManager_ remove:target];
     if (disconnectResult == EPOS2_SUCCESS) {
         const diallocResult = [self deallocPrinter:target];
         if (diallocResult == EPOS2_SUCCESS) {
@@ -359,12 +360,22 @@ RCT_EXPORT_METHOD(getPrinterStatusInfo:(NSString *)printerTarget
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject)
 {
-    ThePrinter* thePrinter = [objManager_ getObject:printerTarget];
- if (thePrinter) {
-    resolve(@"Printer exists");
-  } else {
-    reject(@"Printer does not exists", nil);
-  }
+    @try {
+        ThePrinter* thePrinter = [objManager_ getObject:printerTarget];
+        
+        if (thePrinter == nil) {
+            return reject(@"event_failure", @"Printer is null", nil);
+        }
+        
+        Epos2PrinterStatusInfo * status = [[thePrinter getEpos2Printer] getStatus];
+        
+        NSDictionary *message = [ErrorManager makeStatusMessage: status];
+
+        resolve(message);
+    }
+    @catch (NSException *exception) {
+        reject(@"event_failure", exception.reason, nil);
+    }
 }
 
 -(Epos2PrinterStatusInfo* _Nullable) getStatus:(nonnull NSString*)objid
