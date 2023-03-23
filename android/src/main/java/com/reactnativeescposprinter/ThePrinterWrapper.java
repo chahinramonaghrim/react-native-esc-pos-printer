@@ -542,8 +542,6 @@ public class ThePrinterWrapper extends ReactContextBaseJavaModule implements Pri
 
             promise.resolve(message);
 
-            Toast.makeText(context_, "Successfully get status", Toast.LENGTH_SHORT).show();
-
         } catch (Exception e) {
             promise.reject(e.getMessage());
         }
