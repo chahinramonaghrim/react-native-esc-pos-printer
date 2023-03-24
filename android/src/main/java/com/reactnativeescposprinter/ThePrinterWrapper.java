@@ -172,7 +172,7 @@ public class ThePrinterWrapper extends ReactContextBaseJavaModule implements Pri
             thePrinter = null;
             callback.onSuccess(EscPosPrinterErrorManager.getCodeText(POS_SUCCESS));
         } catch (Exception e) {
-            callback.onSuccess(e.getMessage());
+            callback.onError(e.getMessage());
         }
     }
 
