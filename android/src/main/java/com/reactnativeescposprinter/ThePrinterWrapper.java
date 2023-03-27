@@ -113,14 +113,12 @@ public class ThePrinterWrapper extends ReactContextBaseJavaModule implements Pri
     }
 
     @ReactMethod
-    public void makeToast() {
-        Toast.makeText(context_, "This is a toast", Toast.LENGTH_SHORT).show();
-    }
-
-    @ReactMethod
     public void disconnectInstantiatedPrinter(String printerTarget, Promise promise) {
        try {
         ThePrinter thePrinter = thePrinterManager_.getObject(printerTarget);
+        if (thePrinter == null) {
+            return promise.reject("Printer is null");
+        }
         thePrinter.disconnect();
         thePrinterManager_.remove(printerTarget);
         promise.resolve("Successfully disconnected");

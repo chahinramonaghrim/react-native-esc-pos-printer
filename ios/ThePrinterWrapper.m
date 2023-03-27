@@ -125,6 +125,27 @@ RCT_EXPORT_METHOD(init:(NSString *)target
     }
 }
 
+RCT_EXPORT_METHOD(disconnectInstantiatedPrinter:(NSString *)printerTarget
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject)
+{
+    @try {
+        ThePrinter* thePrinter = [objManager_ getObject:printerTarget];
+        
+        if (thePrinter == nil) {
+            return reject(@"event_failure", @"Printer is null", nil);
+        }
+        
+        [thePrinter disconnect];
+        [objManager_ remove:printerTarget];
+        
+        resolve(@"Successfully disconnected");
+    }
+    @catch (NSException *exception) {
+        reject(@"event_failure", exception.reason, nil);
+    }
+}
+
 RCT_EXPORT_METHOD(connect:(NSString *)target
                 withResolver:(RCTPromiseResolveBlock)resolve
                 withRejecter:(RCTPromiseRejectBlock)reject)
