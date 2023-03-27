@@ -118,14 +118,14 @@ public class ThePrinterWrapper extends ReactContextBaseJavaModule implements Pri
     }
 
     @ReactMethod
-    public void disconnectPrinterAsap(String printerTarget, Promise promise) {
+    public void disconnectInstantiatedPrinter(String printerTarget, Promise promise) {
        try {
         ThePrinter thePrinter = thePrinterManager_.getObject(printerTarget);
         thePrinter.disconnect();
         thePrinterManager_.remove(printerTarget);
         promise.resolve("Successfully disconnected");
        } catch (Exception e) {
-        promise.reject("Error disconnected" + e.getMessage());
+        promise.reject("Error disconnected: " + e.getMessage());
        }
     }
 

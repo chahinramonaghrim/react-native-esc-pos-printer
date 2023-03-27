@@ -70,8 +70,8 @@ const _default = {
     return ThePrinterWrapper.disconnectAndDeallocate(target);
   },
 
-  disconnectPrinterAsap(target: string): Promise<string> {
-    return ThePrinterWrapper.disconnectPrinterAsap(target);
+  disconnectInstantiatedPrinter(target: string): Promise<string> {
+    return ThePrinterWrapper.disconnectInstantiatedPrinter(target);
   },
   
   async discover(params?: IDiscoverParams): Promise<IPrinter[]> {
