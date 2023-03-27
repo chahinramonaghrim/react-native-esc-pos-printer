@@ -106,7 +106,7 @@ public class ThePrinterWrapper extends ReactContextBaseJavaModule implements Pri
                     callback.onError("The printer object couldn't be created");
                 }
             }
-            connectPrinter(target, callback);
+            connectPrinterAsync(target, callback);
         } catch (Exception e) {
             callback.onError(e.getMessage());
         }
@@ -221,6 +221,33 @@ public class ThePrinterWrapper extends ReactContextBaseJavaModule implements Pri
             }
             try {
                 thePrinter.connect(Printer.PARAM_DEFAULT, true);
+                callback.onSuccess(EscPosPrinterErrorManager.getCodeText(POS_SUCCESS));
+            } catch (Epos2Exception e) {
+                String errorString = EscPosPrinterErrorManager.getEposExceptionText(e.getErrorStatus());
+                callback.onError(errorString);
+            }
+        } catch (Exception e) {
+            callback.onError(e.getMessage());
+        }
+    }
+
+      /**
+     * Function connectPrinter tries to connect selected printer
+     * 
+     * @param printerTarget the printer target
+     */
+    public void connectPrinterAsync(@NonNull String printerTarget, MyCallbackInterface callback) {
+        try {
+            ThePrinter thePrinter = null;
+            thePrinter = thePrinterManager_.getObject(printerTarget);
+            if (thePrinter == null) {
+                String errorString = EscPosPrinterErrorManager.getEposExceptionText(Epos2Exception.ERR_MEMORY);
+                callback.onError(errorString);
+            }
+            thePrinter.setBusy(ThePrinterState.PRINTER_CONNECTING);
+            
+            try {
+                thePrinter.connectAsync(Printer.PARAM_DEFAULT, true);
                 callback.onSuccess(EscPosPrinterErrorManager.getCodeText(POS_SUCCESS));
             } catch (Epos2Exception e) {
                 String errorString = EscPosPrinterErrorManager.getEposExceptionText(e.getErrorStatus());

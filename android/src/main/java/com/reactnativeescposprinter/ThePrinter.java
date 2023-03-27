@@ -266,6 +266,58 @@ public class ThePrinter implements StatusChangeListener, PrinterSettingListener,
         }
     }
 
+      /**
+     * throws Epos2Exception if there is an error
+     * Function connect tries to connect selected printer
+     * 
+     * @param timeout      the amount of time before giving up --
+     *                     EPOS2_PARAM_DEFAULT
+     * @param startMonitor to Start the realtime statusMonitor
+     */
+    public void connectAsync(final int timeout, final boolean startMonitor) throws Epos2Exception {
+
+        synchronized (shutdownLock_) {
+            if (shutdown_)
+                throw new Epos2Exception(Epos2Exception.ERR_ILLEGAL);
+        }
+
+       
+        if (epos2Printer_ == null)
+            throw new Epos2Exception(Epos2Exception.ERR_MEMORY);
+        if (printerTarget_ == null || printerTarget_.isEmpty())
+            throw new Epos2Exception(Epos2Exception.ERR_MEMORY);
+
+        if (isConnected_) {
+            return;
+        }
+
+        connectingState_ = ThePrinterState.PRINTER_CONNECTING;
+
+        isConnected_ = false;
+        isWaitingForPrinterSettings_ = false;
+        didStartMonitor_ = false;
+        didBeginTransaction_ = false;
+        try {
+            epos2Printer_.connect(printerTarget_, timeout);
+            isConnected_ = true;
+        } catch (Epos2Exception e) {
+            connectingState_ = ThePrinterState.PRINTER_IDLE;
+            e.printStackTrace();
+            isConnected_ = false;
+            throw e;
+        }
+
+        if (!startMonitor)
+            return;
+
+        try {
+            startMonitor();
+        } catch (Epos2Exception e) {
+            e.printStackTrace();
+            connectingState_ = ThePrinterState.PRINTER_IDLE;
+        }
+    }
+
     /**
      * throws Epos2Exception if there is an error
      * Function disconnect tries to disconnect selected printer
