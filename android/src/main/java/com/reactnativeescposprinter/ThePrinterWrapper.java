@@ -117,7 +117,8 @@ public class ThePrinterWrapper extends ReactContextBaseJavaModule implements Pri
        try {
         ThePrinter thePrinter = thePrinterManager_.getObject(printerTarget);
         if (thePrinter == null) {
-            return promise.reject("Printer is null");
+            promise.reject("Printer is null");
+            return;
         }
         thePrinter.disconnect();
         thePrinterManager_.remove(printerTarget);
